@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.deanery.controller.GradesController">
+   <children>
+      <Label layoutX="215.0" layoutY="14.0" text="Успеваемость">
+         <font>
+            <Font name="System Bold" size="25.0" />
+         </font>
+      </Label>
+      <BorderPane layoutX="87.0" layoutY="50.0" prefHeight="347.0" prefWidth="425.0">
+         <top>
+            <Label fx:id="nameLabel" text="Some Name" textAlignment="CENTER" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Italic" size="20.0" />
+               </font>
+            </Label>
+         </top>
+         <center>
+            <TableView fx:id="sessionTable" prefHeight="268.0" prefWidth="425.0" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn fx:id="sessionColumn" prefWidth="46.6666259765625" text="Сессия" />
+                <TableColumn fx:id="disciplineColumn" prefWidth="220.66671752929688" text="Дисциплина" />
+                  <TableColumn fx:id="pointsColumn" prefWidth="47.33331298828125" text="Баллы" />
+                  <TableColumn fx:id="dateColumn" prefWidth="110.66668701171875" text="Дата" />
+              </columns>
+            </TableView>
+         </center>
+         <bottom>
+            <Button fx:id="inputNewResultsButton" mnemonicParsing="false" onAction="#editInputGradesHandle" text="Ввести новые результаты" BorderPane.alignment="CENTER" />
+         </bottom>
+      </BorderPane>
+   </children>
+</AnchorPane>
