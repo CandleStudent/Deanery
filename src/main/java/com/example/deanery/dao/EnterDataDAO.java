@@ -19,13 +19,17 @@ public class EnterDataDAO extends GeneralDAO {
         return rs;
     }
 
-    //  Принимает логин и пароль
-    // return -1 — no login in database
-    // return 0 — password isn't correct
-    // return 1 — all input data correct
+    /**
+     * Принимает логин и пароль.
+     * <p>
+     * @return -1 — no login in database,
+     * 0 — password isn't correct,
+     * 1 — all input data correct.
+     */
     public static int isEnterDataCorrect(User user, String inputLogin, String inputPassword) {
         String query = "select * from enterData;";
-        try (Connection con = getConnection("userDatabase.properties")){;
+        try (Connection con = getConnection("userDatabase.properties")) {
+            ;
             stmt = con.createStatement();
             rs = stmt.executeQuery(query);
             while (rs.next()) {
@@ -48,13 +52,17 @@ public class EnterDataDAO extends GeneralDAO {
         return -1;
     }
 
-    // 1 - administrator
-    // 2 - student
+    /**
+    * @return 1 - administrator,
+    * 2 - student,
+     * -1 - something wrong
+     */
     public static int getRole(int userId) {
         String query = String.format("""
-                SELECT * FROM users WHERE id = %d;""",
+                        SELECT * FROM users WHERE id = %d;""",
                 userId);
-        try (Connection con = getConnection("userDatabase.properties")){;
+        try (Connection con = getConnection("userDatabase.properties")) {
+            ;
             stmt = con.createStatement();
             rs = stmt.executeQuery(query);
             rs.next();
@@ -67,9 +75,9 @@ public class EnterDataDAO extends GeneralDAO {
 
     public static int getStudentId(int userId) {
         String query = String.format("""
-                SELECT * FROM studentsusers WHERE userId = %d;""",
+                        SELECT * FROM studentsusers WHERE userId = %d;""",
                 userId);
-        try (Connection con = getConnection("userDatabase.properties")){
+        try (Connection con = getConnection("userDatabase.properties")) {
             stmt = con.createStatement();
             rs = stmt.executeQuery(query);
             rs.next();
