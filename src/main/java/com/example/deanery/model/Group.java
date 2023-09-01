@@ -93,7 +93,11 @@ public class Group {
         this.graduationYear = graduationYear;
     }
 
-    // по текущей дате определяет, сколько сессий было у данной группы
+    /**
+     * По текущей дате определяется, сколько сессий было у данной группы
+     * @param currentDate
+     * дата, относительно которой рассчитывается количество сессий данной группы
+     */
     private void setNewLastSession(LocalDate currentDate) {
         int currLastSession = (term - 1) * 2;
         if (currentDate.getMonthValue() < 7) {
@@ -102,7 +106,11 @@ public class Group {
         setLastSession(currLastSession);
     }
 
-    //  по текущей дате определяет, на каком курсе сейчас находится группа
+    /**
+     * по текущей дате определяет, на каком курсе сейчас находится группа
+     * @param currentDate
+     * дата, относительно которой рассчитывается количество сессий данной группы
+     */
     private void setCurrentTerm(LocalDate currentDate) {
         int currTerm = currentDate.getYear() - startDate.getYear();
         if (currentDate.getMonthValue() > 6) {
@@ -111,7 +119,9 @@ public class Group {
         setTerm(currTerm);
     }
 
-    // обновляет данные по курсу и по последней сессии в зависимости от текущего времени
+    /**
+     *  обновляет данные по курсу и по последней сессии в зависимости от текущего времени
+     */
     public void updateDates() {
         LocalDate currentDate = LocalDate.now();
         setCurrentTerm(currentDate);
