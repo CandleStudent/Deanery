@@ -144,8 +144,12 @@ public class Student {
         isGraduated = graduated;
     }
 
-    // возвращает средний балл по итогам всех сессий
-    // если таковых нет -- возвращает -1
+    /**
+     *
+     * @return
+     * -1 if the student hasn't had a session,
+     * else average point for all the exams during the period of study
+     */
     public double getAverage() {
         double average = 0;
         List<Grade> grades = StudentsDbDAO.getStudentGrades(this);
