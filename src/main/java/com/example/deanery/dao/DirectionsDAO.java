@@ -1,7 +1,6 @@
 package com.example.deanery.dao;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.sql.*;
 
 public class DirectionsDAO {
@@ -12,7 +11,7 @@ public class DirectionsDAO {
         this.dataSource = dataSource;
     }
 
-    public String getDirectionName(int directionId) {
+    public String getDirectionNameById(int directionId) {
         try (Connection con = dataSource.getConnection()) {
             String query = "SELECT DirectionName FROM directions WHERE DirectionId = ?";
             PreparedStatement stmt = con.prepareStatement(query);

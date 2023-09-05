@@ -7,7 +7,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 
@@ -31,7 +30,7 @@ public class AcademicGroupsDAO {
 
             while (rs.next()) {
                 int groupNum = Integer.parseInt(rs.getString("GroupNum"));
-                String direction = DirectionsDAO.getDirectionName(rs.getInt("DirectionId"));
+                String direction = DirectionsDAO.getDirectionNameById(rs.getInt("DirectionId"));
                 Direction direction1 = Direction.APPLIED_MATHS_AND_CS;
                 if (direction.equals("Прикладная математика и информатика")) {
                     direction1 = Direction.APPLIED_MATHS_AND_CS;
@@ -53,7 +52,7 @@ public class AcademicGroupsDAO {
         return data;
     }
 
-    public Group getGroup(int num) {
+    public Group getGroupByName(int num) {
         try (Connection con = dataSource.getConnection()) {
             String query = "select * from academicgroups where GroupNum = ?";
             PreparedStatement stmt = con.prepareStatement(query);
@@ -61,7 +60,7 @@ public class AcademicGroupsDAO {
             ResultSet rs = stmt.executeQuery();
             rs.next();
             int groupNum = Integer.parseInt(rs.getString("GroupNum"));
-            String direction = DirectionsDAO.getDirectionName(rs.getInt("DirectionId"));
+            String direction = DirectionsDAO.getDirectionNameById(rs.getInt("DirectionId"));
             Direction direction1 = Direction.APPLIED_MATHS_AND_CS;
             if (direction.equals("Прикладная информатика")) {
                 direction1 = Direction.APPLIED_CS;

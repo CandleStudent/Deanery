@@ -3,7 +3,6 @@ package com.example.deanery.dao;
 import com.example.deanery.model.Discipline;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -15,7 +14,7 @@ public class DisciplinesDAO {
         this.dataSource = dataSource;
     }
 
-    public String getDisciplineName(int id) {
+    public String getDisciplineNameById(int id) {
         try (Connection con = dataSource.getConnection()) {
             String query = "SELECT DisciplineName FROM disciplines WHERE Id = ?";
             PreparedStatement stmt = con.prepareStatement(query);

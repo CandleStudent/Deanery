@@ -14,7 +14,7 @@ public class Discipline {
 
     public Discipline(int id) {
         this.id = id;
-        this.name = DisciplinesDAO.getDisciplineName(id);
+        this.name = DisciplinesDAO.getDisciplineNameById(id);
     }
 
     public Discipline() {
@@ -26,7 +26,7 @@ public class Discipline {
 
     public void setId(int id) {
         this.id = id;
-        this.name = DisciplinesDAO.getDisciplineName(id);
+        this.name = DisciplinesDAO.getDisciplineNameById(id);
     }
 
     public String getName() {

@@ -101,7 +101,7 @@ public class EnterController {
             // передаем адресата в контроллер
             StudentMenuController controller = loader.getController();
             controller.setStage(newStage);
-            Student student = StudentsDAO.getStudent(studentId);
+            Student student = StudentsDAO.getStudentById(studentId);
             controller.setStudent(student);
 
             //  closing previous scene

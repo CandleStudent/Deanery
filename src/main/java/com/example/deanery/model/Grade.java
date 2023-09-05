@@ -23,7 +23,7 @@ public class Grade {
         this.examSessionNum = examSessionNum;
         this.examDate = examDate;
         this.examPoints = examPoints;
-        this.disciplineName = DisciplinesDAO.getDisciplineName(disciplineId);
+        this.disciplineName = DisciplinesDAO.getDisciplineNameById(disciplineId);
     }
 
     public Grade(Student student, int examSessionNum, LocalDate examDate, int examPoints, String disciplineName) {
@@ -40,7 +40,7 @@ public class Grade {
         this.examSessionNum = examSessionNum;
         this.examDate = examDate;
         this.examPoints = examPoints;
-        this.disciplineName = DisciplinesDAO.getDisciplineName(disciplineId);
+        this.disciplineName = DisciplinesDAO.getDisciplineNameById(disciplineId);
     }
 
     public Student getStudent() {

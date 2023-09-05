@@ -37,7 +37,7 @@ public class StudentsDAO {
                 LocalDate birthday = LocalDate.parse(rs.getString("Birthday"));
                 String address = rs.getString("Address");
                 int groupNum = Integer.parseInt(rs.getString("GroupNum"));
-                Group group = AcademicGroupsDAO.getGroup(groupNum);
+                Group group = AcademicGroupsDAO.getGroupByName(groupNum);
                 String phone = rs.getString("PhoneNum");
                 LocalDate admissionDate = LocalDate.parse(rs.getString("AdmissionDate"));
                 String document = rs.getString("Document");
@@ -112,7 +112,7 @@ public class StudentsDAO {
         }
     }
 
-    public Student getStudent(int studentId) {
+    public Student getStudentById(int studentId) {
         try (Connection con = dataSource.getConnection()) {
             String query = """
                     SELECT * FROM students
@@ -128,7 +128,7 @@ public class StudentsDAO {
             LocalDate birthay = LocalDate.parse(rs.getString("Birthday"));
             String address = rs.getString("Address");
             int groupNum = Integer.parseInt(rs.getString("GroupNum"));
-            Group group = AcademicGroupsDAO.getGroup(groupNum);
+            Group group = AcademicGroupsDAO.getGroupByName(groupNum);
             String phone = rs.getString("PhoneNum");
             LocalDate admissionDate = LocalDate.parse(rs.getString("AdmissionDate"));
             String document = rs.getString("Document");
