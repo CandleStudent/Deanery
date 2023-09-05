@@ -33,12 +33,12 @@ public class DisciplinesDAO {
     public ArrayList<Discipline> getDisciplinesAtSession(int sessionNum, int directionId) {
         ArrayList<Discipline> disciplines = new ArrayList<>();
         try (Connection con = dataSource.getConnection()) {
-            String query = String.format("""
+            String query = """
                 select disciplines.Id, disciplines.DisciplineName
                 from sessions join disciplines
                 where sessions.DirectionId = ? AND
                 sessions.ExamSessionNum = ?
-                AND disciplines.Id = sessions.DisciplineId;""");
+                AND disciplines.Id = sessions.DisciplineId""";
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setInt(1, directionId);
             stmt.setInt(2, sessionNum);

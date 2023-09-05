@@ -5,22 +5,32 @@ import com.example.deanery.model.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import javax.sql.DataSource;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GradesDAO {
-    public static ObservableList<Grade> initDataFromGrades(Student student) {
+
+    private DataSource dataSource;
+
+    public GradesDAO(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public ObservableList<Grade> initDataFromGrades(Student student) {
         ObservableList<Grade> data = FXCollections.observableArrayList();
-        String query = "SELECT  ExamSessionNumber, ExamDate, ExamPoints, DisciplineName FROM grades JOIN disciplines WHERE grades.subjectId = disciplines.Id AND StudentId = \"" + student.getId() + "\" ORDER BY ExamSessionNumber;";
-        try (Connection con = GeneralDAO.getConnection("studentsDB.properties")) {
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+        try (Connection con = dataSource.getConnection()) {
+            String query = "SELECT  ExamSessionNumber, ExamDate, ExamPoints, DisciplineName " +
+                    "FROM grades " +
+                    "JOIN disciplines " +
+                    "WHERE grades.subjectId = disciplines.Id " +
+                    "AND StudentId = ? ORDER BY ExamSessionNumber;";
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, student.getId());
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 int sessionNum = rs.getInt("ExamSessionNumber");
                 String discipline = rs.getString("DisciplineName");
@@ -29,38 +39,37 @@ public class GradesDAO {
                 Grade grade = new Grade(student, sessionNum, date, points, discipline);
                 data.add(grade);
             }
-        } catch (SQLException | IOException sqlEx) {
+        } catch (SQLException sqlEx) {
             sqlEx.printStackTrace();
         }
         return data;
     }
 
-    public static void addGrade(Grade grade) {
-        String query = String.format("""
+    public void addGrade(Grade grade) {
+        try (Connection con = dataSource.getConnection()) {
+            String query = """
                         INSERT grades(StudentId, SubjectId, ExamSessionNumber, ExamDate, ExamPoints)
-                        VALUES (%d, %d, %d, '%s', %d);""",
-                grade.getStudent().getId(),
-                grade.getDisciplineId(),
-                grade.getExamSessionNum(),
-                grade.getExamDate().toString(),
-                grade.getExamPoints());
-
-        try (Connection con = GeneralDAO.getConnection("studentsDB.properties")) {
-            Statement stmt = con.createStatement();
-            stmt.executeUpdate(query);
-        } catch (SQLException | IOException sqlEx) {
+                        VALUES (?, ?, ?, ?, ?)""";
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, grade.getStudent().getId());
+            stmt.setInt(2, grade.getDisciplineId());
+            stmt.setInt(3, grade.getExamSessionNum());
+            stmt.setString(4, grade.getExamDate().toString());
+            stmt.setInt(5, grade.getExamPoints());
+            stmt.executeUpdate();
+        } catch (SQLException sqlEx) {
             sqlEx.printStackTrace();
         }
     }
 
-    public static List<Grade> getStudentGrades(Student student) {
+    public List<Grade> getStudentGrades(Student student) {
         List<Grade> grades = new ArrayList<>();
-        String query = String.format("""
-                SELECT * FROM grades WHERE StudentId = %d;""",
-                student.getId());
-        try (Connection con = GeneralDAO.getConnection("studentsDB.properties")) {
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+        try (Connection con = dataSource.getConnection()) {
+            String query = """
+                SELECT * FROM grades WHERE StudentId = %d""";
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, student.getId());
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 int subjectId = rs.getInt("SubjectId");
                 int examSessionNum = rs.getInt("ExamSessionNumber");
@@ -69,10 +78,9 @@ public class GradesDAO {
                 Grade grade = new Grade(student, subjectId, examSessionNum, examDate, points);
                 grades.add(grade);
             }
-            return grades;
-        } catch (SQLException | IOException sqlEx) {
+        } catch (SQLException sqlEx) {
             sqlEx.printStackTrace();
         }
-        return null;
+        return grades;
     }
 }
