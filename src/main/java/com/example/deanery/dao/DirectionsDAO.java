@@ -1,20 +1,26 @@
 package com.example.deanery.dao;
 
+import javax.sql.DataSource;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class DirectionsDAO {
-    public static String getDirectionName(int directionId) {
-        String query = "SELECT DirectionName FROM directions WHERE DirectionId = " + directionId + ";";
-        try (Connection con = GeneralDAO.getConnection("studentsDB.properties")) {
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+
+    private DataSource dataSource;
+
+    public DirectionsDAO(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public String getDirectionName(int directionId) {
+        try (Connection con = dataSource.getConnection()) {
+            String query = "SELECT DirectionName FROM directions WHERE DirectionId = ?";
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, directionId);
+            ResultSet rs = stmt.executeQuery();
             rs.next();
             return rs.getString("DirectionName");
-        } catch (SQLException | IOException sqlEx) {
+        } catch (SQLException sqlEx) {
             sqlEx.printStackTrace();
         }
         return null;
