@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import static com.example.deanery.dao.StudentsDbDAO.getGroup;
+import static com.example.deanery.dao.AcademicGroups.getGroup;
 
 public class EditStudentController extends EditController{
     @FXML

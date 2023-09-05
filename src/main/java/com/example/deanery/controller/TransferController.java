@@ -1,8 +1,8 @@
 package com.example.deanery.controller;
 
+import com.example.deanery.dao.AcademicGroups;
 import com.example.deanery.model.Group;
 import com.example.deanery.model.Student;
-import com.example.deanery.dao.StudentsDbDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -39,7 +39,7 @@ public class TransferController {
         currentGroupLabel.setText(String.valueOf(student.getGroup().getGroupNum()));
         ObservableList<Group> groupsData = FXCollections.observableArrayList();
         //  получаем список групп, исключая выпускников и ту, в которой студент уже состоит
-        groupsData = StudentsDbDAO.initDataForGroups("SELECT * FROM academicgroups WHERE IsGraduated = 0 AND GroupNum != '" + student.getGroup().getGroupNum() + "';");
+        groupsData = AcademicGroups.initDataForGroups("SELECT * FROM academicgroups WHERE IsGraduated = 0 AND GroupNum != '" + student.getGroup().getGroupNum() + "';");
         for (Group groupsDatum : groupsData) {
             map.put(groupsDatum.getGroupNum(), groupsDatum);
         }

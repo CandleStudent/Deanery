@@ -35,7 +35,7 @@ public class Students {
                 LocalDate birthday = LocalDate.parse(rs.getString("Birthday"));
                 String address = rs.getString("Address");
                 int groupNum = Integer.parseInt(rs.getString("GroupNum"));
-                Group group = StudentsDbDAO.getGroup(groupNum);
+                Group group = AcademicGroups.getGroup(groupNum);
                 String phone = rs.getString("PhoneNum");
                 LocalDate admissionDate = LocalDate.parse(rs.getString("AdmissionDate"));
                 String document = rs.getString("Document");
@@ -120,7 +120,7 @@ public class Students {
                 LocalDate birthay = LocalDate.parse(rs.getString("Birthday"));
                 String address = rs.getString("Address");
                 int groupNum = Integer.parseInt(rs.getString("GroupNum"));
-                Group group = StudentsDbDAO.getGroup(groupNum);
+                Group group = AcademicGroups.getGroup(groupNum);
                 String phone = rs.getString("PhoneNum");
                 LocalDate admissionDate = LocalDate.parse(rs.getString("AdmissionDate"));
                 String document = rs.getString("Document");
