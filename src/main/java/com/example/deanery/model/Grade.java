@@ -1,5 +1,6 @@
 package com.example.deanery.model;
 
+import com.example.deanery.dao.Application;
 import com.example.deanery.dao.DisciplinesDAO;
 
 import java.time.LocalDate;
@@ -23,7 +24,8 @@ public class Grade {
         this.examSessionNum = examSessionNum;
         this.examDate = examDate;
         this.examPoints = examPoints;
-        this.disciplineName = DisciplinesDAO.getDisciplineNameById(disciplineId);
+        DisciplinesDAO disciplinesDAO = new DisciplinesDAO(Application.INSTANCE.dataSourceStudents());
+        this.disciplineName = disciplinesDAO.getDisciplineNameById(disciplineId);
     }
 
     public Grade(Student student, int examSessionNum, LocalDate examDate, int examPoints, String disciplineName) {
@@ -40,7 +42,8 @@ public class Grade {
         this.examSessionNum = examSessionNum;
         this.examDate = examDate;
         this.examPoints = examPoints;
-        this.disciplineName = DisciplinesDAO.getDisciplineNameById(disciplineId);
+        DisciplinesDAO disciplinesDAO = new DisciplinesDAO(Application.INSTANCE.dataSourceStudents());
+        this.disciplineName = disciplinesDAO.getDisciplineNameById(disciplineId);
     }
 
     public Student getStudent() {
