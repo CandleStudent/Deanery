@@ -2,39 +2,46 @@ package com.example.deanery.dao;
 
 import com.example.deanery.model.Discipline;
 
+import javax.sql.DataSource;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class DisciplinesDAO {
-    public static String getDisciplineName(int id) {
-        String query = "SELECT DisciplineName FROM disciplines WHERE Id = \"" + id + "\";";
-        try (Connection con = GeneralDAO.getConnection("studentsDB.properties")) {
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+
+    private DataSource dataSource;
+
+    public DisciplinesDAO(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public String getDisciplineName(int id) {
+        try (Connection con = dataSource.getConnection()) {
+            String query = "SELECT DisciplineName FROM disciplines WHERE Id = ?";
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
             rs.next();
-            rs.getString("DisciplineName");
-        } catch (SQLException | IOException sqlEx) {
+            return rs.getString("DisciplineName");
+        } catch (SQLException sqlEx) {
             sqlEx.printStackTrace();
         }
         return null;
     }
 
     // Список экзаменационных дисциплин для конкретного направления на конкретной сессии
-    public static ArrayList<Discipline> getDisciplinesAtSession(int sessionNum, int directionId) {
+    public ArrayList<Discipline> getDisciplinesAtSession(int sessionNum, int directionId) {
         ArrayList<Discipline> disciplines = new ArrayList<>();
-        String query = String.format("""
+        try (Connection con = dataSource.getConnection()) {
+            String query = String.format("""
                 select disciplines.Id, disciplines.DisciplineName
                 from sessions join disciplines
-                where sessions.DirectionId = %d AND
-                sessions.ExamSessionNum = %d
-                AND disciplines.Id = sessions.DisciplineId;""", directionId, sessionNum);
-
-        try (Connection con = GeneralDAO.getConnection("studentsDB.properties")) {
-            Statement stmt = con.createStatement();
+                where sessions.DirectionId = ? AND
+                sessions.ExamSessionNum = ?
+                AND disciplines.Id = sessions.DisciplineId;""");
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, directionId);
+            stmt.setInt(2, sessionNum);
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 int disciplineId = rs.getInt("disciplines.Id");
@@ -42,7 +49,7 @@ public class DisciplinesDAO {
                 Discipline discipline = new Discipline(disciplineId, disciplineName);
                 disciplines.add(discipline);
             }
-        } catch (SQLException | IOException sqlEx) {
+        } catch (SQLException sqlEx) {
             sqlEx.printStackTrace();
         }
         return disciplines;
