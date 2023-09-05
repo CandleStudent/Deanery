@@ -6,7 +6,6 @@ import javafx.collections.ObservableList;
 import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class StudentsDbDAO extends GeneralDAO {
 
@@ -20,44 +19,6 @@ public class StudentsDbDAO extends GeneralDAO {
 
     public static ResultSet getRs() {
         return rs;
-    }
-
-    public static String getDisciplineName(int id) {
-        String query = "SELECT DisciplineName FROM disciplines WHERE Id = \"" + id + "\";";
-        try (Connection con = getConnection("studentsDB.properties")) {
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            rs.next();
-            rs.getString("DisciplineName");
-        } catch (SQLException | IOException sqlEx) {
-            sqlEx.printStackTrace();
-        }
-        return null;
-    }
-
-    // Список экзаменационных дисциплин для конкретного направления на конкретной сессии
-    public static ArrayList<Discipline> getDisciplinesAtSession(int sessionNum, int directionId) {
-        ArrayList<Discipline> disciplines = new ArrayList<>();
-        String query = String.format("""
-                select disciplines.Id, disciplines.DisciplineName
-                from sessions join disciplines
-                where sessions.DirectionId = %d AND
-                sessions.ExamSessionNum = %d
-                AND disciplines.Id = sessions.DisciplineId;""", directionId, sessionNum);
-
-        try (Connection con = getConnection("studentsDB.properties")) {
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                int disciplineId = rs.getInt("disciplines.Id");
-                String disciplineName = rs.getString("disciplines.DisciplineName");
-                Discipline discipline = new Discipline(disciplineId, disciplineName);
-                disciplines.add(discipline);
-            }
-        } catch (SQLException | IOException sqlEx) {
-            sqlEx.printStackTrace();
-        }
-        return disciplines;
     }
 
     //  Обновление данных в соответствии с текущим временем
