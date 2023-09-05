@@ -11,6 +11,7 @@ module com.example.deanery {
     requires eu.hansolo.tilesfx;
     requires com.fasterxml.jackson.databind;
     requires java.sql;
+    requires mysql.connector.java;
 
     opens com.example.deanery to javafx.fxml;
     exports com.example.deanery;
