@@ -1,7 +1,7 @@
 package com.example.deanery.controller;
 
 import com.example.deanery.dao.EnterDataDAO;
-import com.example.deanery.dao.StudentsDbDAO;
+import com.example.deanery.dao.Students;
 import com.example.deanery.model.Student;
 import com.example.deanery.model.User;
 import javafx.fxml.FXML;
@@ -101,7 +101,7 @@ public class EnterController {
             // передаем адресата в контроллер
             StudentMenuController controller = loader.getController();
             controller.setStage(newStage);
-            Student student = StudentsDbDAO.getStudent(studentId);
+            Student student = Students.getStudent(studentId);
             controller.setStudent(student);
 
             //  closing previous scene

@@ -1,6 +1,6 @@
 package com.example.deanery.controller;
 
-import com.example.deanery.dao.StudentsDbDAO;
+import com.example.deanery.dao.Students;
 import com.example.deanery.model.Student;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleObjectProperty;
@@ -96,7 +96,7 @@ public class StudentListController {
                     WHERE students.isExpelled = 0 
                     AND academicgroups.IsGraduated = 0
                     AND students.GroupNum = academicgroups.GroupNum ORDER BY students.Id;""";
-            studentsData = StudentsDbDAO.initDataFromStudents(query);
+            studentsData = Students.initDataFromStudents(query);
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
@@ -163,7 +163,7 @@ public class StudentListController {
                     WHERE students.isExpelled = 0 
                     AND academicgroups.IsGraduated = 0
                     AND students.GroupNum = academicgroups.GroupNum;""";
-            studentsData = StudentsDbDAO.initDataFromStudents(query);
+            studentsData = Students.initDataFromStudents(query);
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
@@ -175,7 +175,7 @@ public class StudentListController {
         boolean okClicked = this.showStudentEditDialog(tempStudent);
         if (okClicked) {
             // добавление в бд
-            StudentsDbDAO.addStudent(tempStudent);
+            Students.addStudent(tempStudent);
             studentsData.add(tempStudent);
             FilteredList<Student> filteredData = new FilteredList<>(studentsData);
             studentsTable.setItems(filteredData);
@@ -194,7 +194,7 @@ public class StudentListController {
                 studentsData.remove(selectedIndex);
                 studentsTable.setItems(studentsData);
                 // удаление из бд
-                StudentsDbDAO.expelStudent(currStudent);
+                Students.expelStudent(currStudent);
             }
         } else {
             // nothing chosen
@@ -216,7 +216,7 @@ public class StudentListController {
                 int selectedIndex = studentsTable.getSelectionModel().getSelectedIndex();
                 studentsData.set(selectedIndex, selectedStudent);
                 //  тут изменение в бд
-                StudentsDbDAO.updateStudent(selectedStudent);
+                Students.updateStudent(selectedStudent);
             }
         } else {
             // nothing chosen
@@ -269,7 +269,7 @@ public class StudentListController {
                 int selectedIndex = studentsTable.getSelectionModel().getSelectedIndex();
                 studentsData.set(selectedIndex, selectedStudent);
                 //  тут изменение в бд
-                StudentsDbDAO.updateStudent(selectedStudent);
+                Students.updateStudent(selectedStudent);
             }
         } else {
             // nothing chosen
