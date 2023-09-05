@@ -1,5 +1,6 @@
 package com.example.deanery.model;
 
+import com.example.deanery.dao.Application;
 import com.example.deanery.dao.GradesDAO;
 
 import java.time.LocalDate;
@@ -152,7 +153,8 @@ public class Student {
      */
     public double getAverage() {
         double average = 0;
-        List<Grade> grades = GradesDAO.getStudentGrades(this);
+        GradesDAO gradesDAO = new GradesDAO(Application.INSTANCE.dataSourceStudents());
+        List<Grade> grades = gradesDAO.getStudentGrades(this);
         if (grades == null || grades.size() == 0) {
             return -1;
         }
