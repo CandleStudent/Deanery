@@ -7,10 +7,7 @@ import javafx.collections.ObservableList;
 
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 
 public class StudentsDAO {
@@ -22,9 +19,14 @@ public class StudentsDAO {
     }
 
     //  Получить все данные о студентах.
-    public static ObservableList<Student> initDataFromStudents(String query) throws SQLException, IOException {
+    public ObservableList<Student> initDataFromStudents() throws SQLException, IOException {
         ObservableList<Student> data = FXCollections.observableArrayList();
-        try (Connection con = GeneralDAO.getConnection("studentsDB.properties")) {
+        try (Connection con = dataSource.getConnection()) {
+            String query = """
+                    SELECT * FROM students JOIN academicgroups 
+                    WHERE students.isExpelled = 0 
+                    AND academicgroups.IsGraduated = 0
+                    AND students.GroupNum = academicgroups.GroupNum ORDER BY students.Id;""";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
@@ -48,102 +50,106 @@ public class StudentsDAO {
         return data;
     }
 
-    public static void updateStudent(Student student) {
-        String query = String.format("UPDATE students SET PhoneNum = '%s', LastName = '%s', FirstName = '%s', Patronim = '%s', GroupNum = %d, AdmissionDate = '%s', Document = '%s', Address = '%s' WHERE Id = %d;",
-                student.getPhoneNum(),
-                student.getLastName(),
-                student.getFirstName(),
-                student.getPatronim(),
-                student.getGroup().getGroupNum(),
-                student.getAdmissionDate().toString(),
-                student.getDocumentNum(),
-                student.getAddress(),
-                student.getId());
-        try (Connection con = GeneralDAO.getConnection("studentsDB.properties")) {
-            Statement stmt = con.createStatement();
-            stmt.executeUpdate(query);
+    public void updateStudent(Student student) {
+        try (Connection con = dataSource.getConnection()) {
+            String query = "UPDATE students " +
+                            "SET PhoneNum = ?, LastName = ?, FirstName = ?, Patronim = ?, GroupNum = ?, AdmissionDate = ?, Document = ?, Address = ? " +
+                            "WHERE Id = %d";
 
-        } catch (SQLException | IOException sqlEx) {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setString(1, student.getPhoneNum());
+            stmt.setString(2, student.getLastName());
+            stmt.setString(3, student.getFirstName());
+            stmt.setString(4, student.getPatronim());
+            stmt.setInt(5, student.getGroup().getGroupNum());
+            stmt.setString(6, student.getAdmissionDate().toString());
+            stmt.setString(7, student.getDocumentNum());
+            stmt.setString(8, student.getAddress());
+            stmt.setInt(9, student.getId());
+            stmt.executeUpdate();
+
+        } catch (SQLException sqlEx) {
             sqlEx.printStackTrace();
         }
     }
 
-    public static void addStudent(Student student) {
-        String query = String.format("INSERT students(Birthday, LastName, FirstName, Patronim, GroupNum, PhoneNum, AdmissionDate, Document, Address) VALUES ('%s', '%s', '%s', '%s', %d, '%s', '%s', '%s', '%s');",
-                student.getBirthday().toString(),
-                student.getLastName(),
-                student.getFirstName(),
-                student.getPatronim(),
-                student.getGroup().getGroupNum(),
-                student.getPhoneNum(),
-                student.getAdmissionDate().toString(),
-                student.getDocumentNum(),
-                student.getAddress());
-        try (Connection con = GeneralDAO.getConnection("studentsDB.properties")) {
-            Statement stmt = con.createStatement();
-            stmt.executeUpdate(query);
+    public void addStudent(Student student) {
+        try (Connection con = dataSource.getConnection()) {
+            String query = "INSERT students(Birthday, LastName, FirstName, Patronim, GroupNum, PhoneNum, AdmissionDate, Document, Address) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement stmt = con.prepareStatement(query);
+
+            stmt.setString(1, student.getBirthday().toString());
+            stmt.setString(2, student.getLastName());
+            stmt.setString(3, student.getFirstName());
+            stmt.setString(4, student.getPatronim());
+            stmt.setInt(5, student.getGroup().getGroupNum());
+            stmt.setString(6, student.getPhoneNum());
+            stmt.setString(7, student.getAdmissionDate().toString());
+            stmt.setString(8, student.getDocumentNum());
+            stmt.setString(9, student.getAddress());
+
+            stmt.executeUpdate();
             ResultSet rs = stmt.executeQuery("SELECT Id from students ORDER BY Id DESC LIMIT 1");
             rs.next();
             student.setId(rs.getInt("Id"));
-
-        } catch (SQLException | IOException sqlEx) {
+        } catch (SQLException sqlEx) {
             sqlEx.printStackTrace();
         }
     }
 
     // expelling the student
     // set isExpelled = true and groupNum = null
-    public static void expelStudent(Student student) {
-        //String query = "DELETE FROM students WHERE Id = '" + student.getId() + "';";
-        String query = "UPDATE students set isExpelled = 1, GroupNum = NULL WHERE Id = '" + student.getId() + "';";
-        try (Connection con = GeneralDAO.getConnection("studentsDB.properties")) {
-            // getting Statement object to execute query
-            Statement stmt = con.createStatement();
-            stmt.executeUpdate(query);
-        } catch (SQLException | IOException sqlEx) {
+    public void expelStudent(Student student) {
+        try (Connection con = dataSource.getConnection()) {
+            String query = "UPDATE students set isExpelled = 1, GroupNum = NULL WHERE Id = ?";
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, student.getId());
+            stmt.executeUpdate();
+        } catch (SQLException sqlEx) {
             sqlEx.printStackTrace();
         }
     }
 
-    public static Student getStudent(int studentId) {
-        String query = String.format("""
-                SELECT * FROM students
-                WHERE Id = %d;""", studentId);
-        try (Connection con = GeneralDAO.getConnection("studentsDB.properties")) {
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+    public Student getStudent(int studentId) {
+        try (Connection con = dataSource.getConnection()) {
+            String query = """
+                    SELECT * FROM students
+                    WHERE Id = ?""";
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, studentId);
+            ResultSet rs = stmt.executeQuery();
             rs.next();
-                Integer id = rs.getInt("Id");
-                String lastName = rs.getString("LastName");
-                String firstName = rs.getString("FirstName");
-                String patromin = rs.getString("Patronim");
-                LocalDate birthay = LocalDate.parse(rs.getString("Birthday"));
-                String address = rs.getString("Address");
-                int groupNum = Integer.parseInt(rs.getString("GroupNum"));
-                Group group = AcademicGroupsDAO.getGroup(groupNum);
-                String phone = rs.getString("PhoneNum");
-                LocalDate admissionDate = LocalDate.parse(rs.getString("AdmissionDate"));
-                String document = rs.getString("Document");
-                return new Student(id, lastName, firstName, patromin, birthay, address, group, phone, admissionDate, document);
-        } catch (SQLException | IOException sqlEx) {
+            Integer id = rs.getInt("Id");
+            String lastName = rs.getString("LastName");
+            String firstName = rs.getString("FirstName");
+            String patromin = rs.getString("Patronim");
+            LocalDate birthay = LocalDate.parse(rs.getString("Birthday"));
+            String address = rs.getString("Address");
+            int groupNum = Integer.parseInt(rs.getString("GroupNum"));
+            Group group = AcademicGroupsDAO.getGroup(groupNum);
+            String phone = rs.getString("PhoneNum");
+            LocalDate admissionDate = LocalDate.parse(rs.getString("AdmissionDate"));
+            String document = rs.getString("Document");
+            return new Student(id, lastName, firstName, patromin, birthay, address, group, phone, admissionDate, document);
+        } catch (SQLException sqlEx) {
             sqlEx.printStackTrace();
         }
         return null;
     }
 
-    public static boolean isPassportExist(String passport) {
-        String query = String.format("""
-                SELECT Document FROM students
-                WHERE Document = '%s';""", passport);
-        try (Connection con = GeneralDAO.getConnection("studentsDB.properties")) {
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            if (rs.next()) {
-                if (passport.equals(rs.getString("Document"))) {
-                    return true;
-                }
-            }
-        } catch (SQLException | IOException sqlEx) {
+    public boolean isPassportExist(String passport) {
+        try (Connection con = dataSource.getConnection()) {
+            String query = """
+                    SELECT EXISTS(Document FROM students
+                    WHERE Document = ?) as isExists""";
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setString(1, passport);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            return rs.getBoolean("isExists");
+        } catch (SQLException sqlEx) {
             sqlEx.printStackTrace();
         }
         return false;

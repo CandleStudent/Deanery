@@ -91,12 +91,7 @@ public class StudentListController {
         groupColumn.setCellValueFactory(column -> new SimpleObjectProperty<Integer>(column.getValue().getGroup().getGroupNum()));
 
         try {
-            String query = """
-                    SELECT * FROM students JOIN academicgroups 
-                    WHERE students.isExpelled = 0 
-                    AND academicgroups.IsGraduated = 0
-                    AND students.GroupNum = academicgroups.GroupNum ORDER BY students.Id;""";
-            studentsData = StudentsDAO.initDataFromStudents(query);
+            studentsData = StudentsDAO.initDataFromStudents();
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
@@ -158,12 +153,7 @@ public class StudentListController {
     private void initData() {
         studentsTable.getItems().clear();
         try {
-            String query = """
-                    SELECT * FROM students JOIN academicgroups 
-                    WHERE students.isExpelled = 0 
-                    AND academicgroups.IsGraduated = 0
-                    AND students.GroupNum = academicgroups.GroupNum;""";
-            studentsData = StudentsDAO.initDataFromStudents(query);
+            studentsData = StudentsDAO.initDataFromStudents();
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
