@@ -17,13 +17,15 @@ public enum Application {
     private DataSource dataSourceStudents;
     private DataSource dataSourceUsers;
 
-    public DataSource dataSourceStudents() throws IOException {
+    public DataSource dataSourceStudents() {
         if (dataSourceStudents == null) {
             MysqlDataSource dataSource = new MysqlDataSource();
             Properties props = new Properties();
             String pathToStudentsDB = "studentsDB.properties";
             try (InputStream in = Files.newInputStream(Paths.get(pathToStudentsDB))) {
                 props.load(in);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
             dataSource.setUser(props.getProperty("username"));
             dataSource.setPassword(props.getProperty("password"));
@@ -33,13 +35,15 @@ public enum Application {
         return dataSourceStudents;
     }
 
-    public DataSource dataSourceUsers() throws IOException {
+    public DataSource dataSourceUsers() {
         if (dataSourceUsers == null) {
             MysqlDataSource dataSource = new MysqlDataSource();
             Properties props = new Properties();
             String pathToStudentsDB = "userDatabase.properties";
             try (InputStream in = Files.newInputStream(Paths.get(pathToStudentsDB))) {
                 props.load(in);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
             dataSource.setUser(props.getProperty("username"));
             dataSource.setPassword(props.getProperty("password"));

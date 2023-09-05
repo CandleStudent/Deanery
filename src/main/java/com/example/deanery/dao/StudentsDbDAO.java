@@ -32,7 +32,8 @@ public class StudentsDbDAO extends GeneralDAO {
                 WHERE IsGraduated = 0;""";
 
         //  Обновление для выпускающихся групп
-        ObservableList<Group> groups = AcademicGroupsDAO.initDataForGroups(query);
+        AcademicGroupsDAO academicGroupsDAO = new AcademicGroupsDAO(Application.INSTANCE.dataSourceStudents());
+        ObservableList<Group> groups = academicGroupsDAO.initDataForGroups(query);
         for (Group group : groups) {
             LocalDate gradDate = group.getGraduationYear();
             if (gradDate.isEqual(currentDate) || gradDate.isBefore(currentDate)) {

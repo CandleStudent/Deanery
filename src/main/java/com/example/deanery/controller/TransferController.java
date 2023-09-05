@@ -1,6 +1,7 @@
 package com.example.deanery.controller;
 
 import com.example.deanery.dao.AcademicGroupsDAO;
+import com.example.deanery.dao.Application;
 import com.example.deanery.model.Group;
 import com.example.deanery.model.Student;
 import javafx.collections.FXCollections;
@@ -39,7 +40,8 @@ public class TransferController {
         currentGroupLabel.setText(String.valueOf(student.getGroup().getGroupNum()));
         ObservableList<Group> groupsData = FXCollections.observableArrayList();
         //  получаем список групп, исключая выпускников и ту, в которой студент уже состоит
-        groupsData = AcademicGroupsDAO.initDataForGroups(student);
+        AcademicGroupsDAO academicGroupsDAO = new AcademicGroupsDAO(Application.INSTANCE.dataSourceStudents());
+        groupsData = academicGroupsDAO.initDataForGroups(student);
         for (Group groupsDatum : groupsData) {
             map.put(groupsDatum.getGroupNum(), groupsDatum);
         }
