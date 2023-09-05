@@ -128,7 +128,8 @@ public class StudentsDAO {
             LocalDate birthay = LocalDate.parse(rs.getString("Birthday"));
             String address = rs.getString("Address");
             int groupNum = Integer.parseInt(rs.getString("GroupNum"));
-            Group group = AcademicGroupsDAO.getGroupByName(groupNum);
+            AcademicGroupsDAO academicGroupsDAO = new AcademicGroupsDAO(Application.INSTANCE.dataSourceStudents());
+            Group group = academicGroupsDAO.getGroupByName(groupNum);
             String phone = rs.getString("PhoneNum");
             LocalDate admissionDate = LocalDate.parse(rs.getString("AdmissionDate"));
             String document = rs.getString("Document");

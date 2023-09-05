@@ -1,5 +1,6 @@
 package com.example.deanery.controller;
 
+import com.example.deanery.dao.Application;
 import com.example.deanery.dao.StudentsDAO;
 import com.example.deanery.model.Student;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -91,7 +92,8 @@ public class StudentListController {
         groupColumn.setCellValueFactory(column -> new SimpleObjectProperty<Integer>(column.getValue().getGroup().getGroupNum()));
 
         try {
-            studentsData = StudentsDAO.initDataFromStudents();
+            StudentsDAO studentsDAO = new StudentsDAO(Application.INSTANCE.dataSourceStudents());
+            studentsData = studentsDAO.initDataFromStudents();
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
@@ -153,7 +155,8 @@ public class StudentListController {
     private void initData() {
         studentsTable.getItems().clear();
         try {
-            studentsData = StudentsDAO.initDataFromStudents();
+            StudentsDAO studentsDAO = new StudentsDAO(Application.INSTANCE.dataSourceStudents());
+            studentsData = studentsDAO.initDataFromStudents();
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
@@ -165,7 +168,8 @@ public class StudentListController {
         boolean okClicked = this.showStudentEditDialog(tempStudent);
         if (okClicked) {
             // добавление в бд
-            StudentsDAO.addStudent(tempStudent);
+            StudentsDAO studentsDAO = new StudentsDAO(Application.INSTANCE.dataSourceStudents());
+            studentsDAO.addStudent(tempStudent);
             studentsData.add(tempStudent);
             FilteredList<Student> filteredData = new FilteredList<>(studentsData);
             studentsTable.setItems(filteredData);
@@ -184,7 +188,8 @@ public class StudentListController {
                 studentsData.remove(selectedIndex);
                 studentsTable.setItems(studentsData);
                 // удаление из бд
-                StudentsDAO.expelStudent(currStudent);
+                StudentsDAO studentsDAO = new StudentsDAO(Application.INSTANCE.dataSourceStudents());
+                studentsDAO.expelStudent(currStudent);
             }
         } else {
             // nothing chosen
@@ -206,7 +211,8 @@ public class StudentListController {
                 int selectedIndex = studentsTable.getSelectionModel().getSelectedIndex();
                 studentsData.set(selectedIndex, selectedStudent);
                 //  тут изменение в бд
-                StudentsDAO.updateStudent(selectedStudent);
+                StudentsDAO studentsDAO = new StudentsDAO(Application.INSTANCE.dataSourceStudents());
+                studentsDAO.updateStudent(selectedStudent);
             }
         } else {
             // nothing chosen
@@ -259,7 +265,8 @@ public class StudentListController {
                 int selectedIndex = studentsTable.getSelectionModel().getSelectedIndex();
                 studentsData.set(selectedIndex, selectedStudent);
                 //  тут изменение в бд
-                StudentsDAO.updateStudent(selectedStudent);
+                StudentsDAO studentsDAO = new StudentsDAO(Application.INSTANCE.dataSourceStudents());
+                studentsDAO.updateStudent(selectedStudent);
             }
         } else {
             // nothing chosen

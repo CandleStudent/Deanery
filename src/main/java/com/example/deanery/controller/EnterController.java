@@ -1,5 +1,6 @@
 package com.example.deanery.controller;
 
+import com.example.deanery.dao.Application;
 import com.example.deanery.dao.EnterDataDAO;
 import com.example.deanery.dao.StudentsDAO;
 import com.example.deanery.model.Student;
@@ -101,7 +102,8 @@ public class EnterController {
             // передаем адресата в контроллер
             StudentMenuController controller = loader.getController();
             controller.setStage(newStage);
-            Student student = StudentsDAO.getStudentById(studentId);
+            StudentsDAO studentsDAO = new StudentsDAO(Application.INSTANCE.dataSourceStudents());
+            Student student = studentsDAO.getStudentById(studentId);
             controller.setStudent(student);
 
             //  closing previous scene

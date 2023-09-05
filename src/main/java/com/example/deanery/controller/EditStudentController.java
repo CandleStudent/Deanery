@@ -1,5 +1,6 @@
 package com.example.deanery.controller;
 
+import com.example.deanery.dao.Application;
 import com.example.deanery.dao.StudentsDAO;
 import com.example.deanery.model.Group;
 import com.example.deanery.model.Student;
@@ -80,7 +81,8 @@ public class EditStudentController extends EditController{
         if (passportField.getText().length() != 10) {
             errorMessage += "В поле паспорта не 10 цифр\n";
         }
-        if (StudentsDAO.isPassportExist(passportField.getText())) {
+        StudentsDAO studentsDAO = new StudentsDAO(Application.INSTANCE.dataSourceStudents());
+        if (studentsDAO.isPassportExist(passportField.getText())) {
             errorMessage += "Студент с таким паспортом уже присутствует в базе";
         }
         String dateRegex = "^\\d{2}-\\d{2}-\\d{4}$";
