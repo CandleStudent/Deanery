@@ -39,7 +39,7 @@ public class TransferController {
         currentGroupLabel.setText(String.valueOf(student.getGroup().getGroupNum()));
         ObservableList<Group> groupsData = FXCollections.observableArrayList();
         //  получаем список групп, исключая выпускников и ту, в которой студент уже состоит
-        groupsData = AcademicGroupsDAO.initDataForGroups("SELECT * FROM academicgroups WHERE IsGraduated = 0 AND GroupNum != '" + student.getGroup().getGroupNum() + "';");
+        groupsData = AcademicGroupsDAO.initDataForGroups(student);
         for (Group groupsDatum : groupsData) {
             map.put(groupsDatum.getGroupNum(), groupsDatum);
         }
