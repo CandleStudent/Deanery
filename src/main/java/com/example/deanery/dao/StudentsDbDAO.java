@@ -34,15 +34,15 @@ public class StudentsDbDAO extends GeneralDAO {
                 Integer id = Integer.parseInt(rs.getString("Id"));
                 String lastName = rs.getString("LastName");
                 String firstName = rs.getString("FirstName");
-                String patromin = rs.getString("Patronim");
-                LocalDate birthay = LocalDate.parse(rs.getString("Birthday"));
+                String patronymic = rs.getString("Patronim");
+                LocalDate birthday = LocalDate.parse(rs.getString("Birthday"));
                 String address = rs.getString("Address");
                 int groupNum = Integer.parseInt(rs.getString("GroupNum"));
                 Group group = getGroup(groupNum);
                 String phone = rs.getString("PhoneNum");
                 LocalDate admissionDate = LocalDate.parse(rs.getString("AdmissionDate"));
                 String document = rs.getString("Document");
-                data.add(new Student(id, lastName, firstName, patromin, birthay, address, group, phone, admissionDate, document));
+                data.add(new Student(id, lastName, firstName, patronymic, birthday, address, group, phone, admissionDate, document));
             }
 
         } catch (SQLException | IOException sqlEx) {
