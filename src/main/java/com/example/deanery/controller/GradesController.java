@@ -1,6 +1,6 @@
 package com.example.deanery.controller;
 
-import com.example.deanery.dao.Grades;
+import com.example.deanery.dao.GradesDAO;
 import com.example.deanery.model.Grade;
 import com.example.deanery.model.Student;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -56,7 +56,7 @@ public class GradesController {
 
     private void initData() {
         sessionTable.getItems().clear();
-        sessionData = Grades.initDataFromGrades(this.student);
+        sessionData = GradesDAO.initDataFromGrades(this.student);
         sessionTable.setItems(sessionData);
 
         sessionColumn.setCellValueFactory(column -> new SimpleObjectProperty<>(column.getValue().getExamSessionNum()));
@@ -68,7 +68,7 @@ public class GradesController {
 
     @FXML
     private void editInputGradesHandle() {
-        ObservableList<Grade> previousGrades = Grades.initDataFromGrades(student);
+        ObservableList<Grade> previousGrades = GradesDAO.initDataFromGrades(student);
         int lastSession;
         if (previousGrades.size() != 0) {
            lastSession = previousGrades.get(previousGrades.size() - 1).getExamSessionNum();
@@ -91,7 +91,7 @@ public class GradesController {
             if (okClicked) {
                 // database update
                 for (Grade grade : grades) {
-                    Grades.addGrade(grade);
+                    GradesDAO.addGrade(grade);
                 }
                 //tableView update
                 initData();

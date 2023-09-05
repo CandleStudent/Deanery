@@ -13,11 +13,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 
-public class Students {
+public class StudentsDAO {
 
     private DataSource dataSource;
 
-    public Students(DataSource dataSource) {
+    public StudentsDAO(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -35,7 +35,7 @@ public class Students {
                 LocalDate birthday = LocalDate.parse(rs.getString("Birthday"));
                 String address = rs.getString("Address");
                 int groupNum = Integer.parseInt(rs.getString("GroupNum"));
-                Group group = AcademicGroups.getGroup(groupNum);
+                Group group = AcademicGroupsDAO.getGroup(groupNum);
                 String phone = rs.getString("PhoneNum");
                 LocalDate admissionDate = LocalDate.parse(rs.getString("AdmissionDate"));
                 String document = rs.getString("Document");
@@ -120,7 +120,7 @@ public class Students {
                 LocalDate birthay = LocalDate.parse(rs.getString("Birthday"));
                 String address = rs.getString("Address");
                 int groupNum = Integer.parseInt(rs.getString("GroupNum"));
-                Group group = AcademicGroups.getGroup(groupNum);
+                Group group = AcademicGroupsDAO.getGroup(groupNum);
                 String phone = rs.getString("PhoneNum");
                 LocalDate admissionDate = LocalDate.parse(rs.getString("AdmissionDate"));
                 String document = rs.getString("Document");

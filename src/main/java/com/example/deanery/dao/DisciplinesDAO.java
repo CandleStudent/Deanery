@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class Disciplines {
+public class DisciplinesDAO {
     public static String getDisciplineName(int id) {
         String query = "SELECT DisciplineName FROM disciplines WHERE Id = \"" + id + "\";";
         try (Connection con = GeneralDAO.getConnection("studentsDB.properties")) {

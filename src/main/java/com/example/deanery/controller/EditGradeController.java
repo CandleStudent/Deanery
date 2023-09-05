@@ -1,6 +1,6 @@
 package com.example.deanery.controller;
 
-import com.example.deanery.dao.Disciplines;
+import com.example.deanery.dao.DisciplinesDAO;
 import com.example.deanery.model.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -42,7 +42,7 @@ public class EditGradeController extends EditController {
         int directionId = student.getGroup().getDirection().getDirectionId();
         titleLabel.setText("Данные по сессии №" + examSessionNum);
 
-        disciplines = Disciplines.getDisciplinesAtSession(examSessionNum, directionId);
+        disciplines = DisciplinesDAO.getDisciplinesAtSession(examSessionNum, directionId);
         gridPane.addColumn(0);
         gridPane.addColumn(1);
         gridPane.addColumn(2);

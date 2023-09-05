@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Grades {
+public class GradesDAO {
     public static ObservableList<Grade> initDataFromGrades(Student student) {
         ObservableList<Grade> data = FXCollections.observableArrayList();
         String query = "SELECT  ExamSessionNumber, ExamDate, ExamPoints, DisciplineName FROM grades JOIN disciplines WHERE grades.subjectId = disciplines.Id AND StudentId = \"" + student.getId() + "\" ORDER BY ExamSessionNumber;";

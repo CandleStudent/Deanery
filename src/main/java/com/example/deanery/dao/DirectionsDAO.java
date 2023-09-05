@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Directions {
+public class DirectionsDAO {
     public static String getDirectionName(int directionId) {
         String query = "SELECT DirectionName FROM directions WHERE DirectionId = " + directionId + ";";
         try (Connection con = GeneralDAO.getConnection("studentsDB.properties")) {

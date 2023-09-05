@@ -1,6 +1,6 @@
 package com.example.deanery.model;
 
-import com.example.deanery.dao.Disciplines;
+import com.example.deanery.dao.DisciplinesDAO;
 
 public class Discipline {
 
@@ -14,7 +14,7 @@ public class Discipline {
 
     public Discipline(int id) {
         this.id = id;
-        this.name = Disciplines.getDisciplineName(id);
+        this.name = DisciplinesDAO.getDisciplineName(id);
     }
 
     public Discipline() {
@@ -26,7 +26,7 @@ public class Discipline {
 
     public void setId(int id) {
         this.id = id;
-        this.name = Disciplines.getDisciplineName(id);
+        this.name = DisciplinesDAO.getDisciplineName(id);
     }
 
     public String getName() {
