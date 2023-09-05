@@ -33,9 +33,7 @@ public class AcademicGroupsDAO {
                 DirectionsDAO directionsDAO = new DirectionsDAO(Application.INSTANCE.dataSourceStudents());
                 String direction = directionsDAO.getDirectionNameById(rs.getInt("DirectionId"));
                 Direction direction1 = Direction.APPLIED_MATHS_AND_CS;
-                if (direction.equals("Прикладная математика и информатика")) {
-                    direction1 = Direction.APPLIED_MATHS_AND_CS;
-                } else if (direction.equals("Прикладная информатика")) {
+                if (direction.equals("Прикладная информатика")) {
                     direction1 = Direction.APPLIED_CS;
                 } else if (direction.equals("Информационная безопасность")) {
                     direction1 = Direction.INFORMATION_SECURITY;
