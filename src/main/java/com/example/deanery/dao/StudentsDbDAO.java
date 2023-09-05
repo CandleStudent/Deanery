@@ -22,19 +22,6 @@ public class StudentsDbDAO extends GeneralDAO {
         return rs;
     }
 
-    public static String getDirectionName(int directionId) {
-        String query = "SELECT DirectionName FROM directions WHERE DirectionId = " + directionId + ";";
-        try (Connection con = getConnection("studentsDB.properties")) {
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            rs.next();
-            return rs.getString("DirectionName");
-        } catch (SQLException | IOException sqlEx) {
-            sqlEx.printStackTrace();
-        }
-        return null;
-    }
-
     public static String getDisciplineName(int id) {
         String query = "SELECT DisciplineName FROM disciplines WHERE Id = \"" + id + "\";";
         try (Connection con = getConnection("studentsDB.properties")) {

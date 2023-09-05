@@ -21,7 +21,7 @@ public class AcademicGroups {
 
             while (rs.next()) {
                 int groupNum = Integer.parseInt(rs.getString("GroupNum"));
-                String direction = StudentsDbDAO.getDirectionName(rs.getInt("DirectionId"));
+                String direction = Directions.getDirectionName(rs.getInt("DirectionId"));
                 Direction direction1 = Direction.APPLIED_MATHS_AND_CS;
                 if (direction.equals("Прикладная математика и информатика")) {
                     direction1 = Direction.APPLIED_MATHS_AND_CS;
@@ -54,7 +54,7 @@ public class AcademicGroups {
             rs.next();
 
             int groupNum = Integer.parseInt(rs.getString("GroupNum"));
-            String direction = StudentsDbDAO.getDirectionName(rs.getInt("DirectionId"));
+            String direction = Directions.getDirectionName(rs.getInt("DirectionId"));
             Direction direction1 = Direction.APPLIED_MATHS_AND_CS;
             if (direction.equals("Прикладная математика и информатика")) {
                 direction1 = Direction.APPLIED_MATHS_AND_CS;
