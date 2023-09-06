@@ -37,14 +37,15 @@ public class StudentsDAO {
                 LocalDate birthday = LocalDate.parse(rs.getString("Birthday"));
                 String address = rs.getString("Address");
                 int groupNum = Integer.parseInt(rs.getString("GroupNum"));
-                Group group = AcademicGroupsDAO.getGroupByName(groupNum);
+                AcademicGroupsDAO academicGroupsDAO = new AcademicGroupsDAO(Application.INSTANCE.dataSourceStudents());
+                Group group = academicGroupsDAO.getByNumber(groupNum);
                 String phone = rs.getString("PhoneNum");
                 LocalDate admissionDate = LocalDate.parse(rs.getString("AdmissionDate"));
                 String document = rs.getString("Document");
                 data.add(new Student(id, lastName, firstName, patronymic, birthday, address, group, phone, admissionDate, document));
             }
 
-        } catch (SQLException | IOException sqlEx) {
+        } catch (SQLException sqlEx) {
             sqlEx.printStackTrace();
         }
         return data;
@@ -112,7 +113,7 @@ public class StudentsDAO {
         }
     }
 
-    public Student getStudentById(int studentId) {
+    public Student getById(int studentId) {
         try (Connection con = dataSource.getConnection()) {
             String query = """
                     SELECT * FROM students
@@ -129,7 +130,7 @@ public class StudentsDAO {
             String address = rs.getString("Address");
             int groupNum = Integer.parseInt(rs.getString("GroupNum"));
             AcademicGroupsDAO academicGroupsDAO = new AcademicGroupsDAO(Application.INSTANCE.dataSourceStudents());
-            Group group = academicGroupsDAO.getGroupByName(groupNum);
+            Group group = academicGroupsDAO.getByNumber(groupNum);
             String phone = rs.getString("PhoneNum");
             LocalDate admissionDate = LocalDate.parse(rs.getString("AdmissionDate"));
             String document = rs.getString("Document");

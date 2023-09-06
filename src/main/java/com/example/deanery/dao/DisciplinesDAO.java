@@ -14,7 +14,7 @@ public class DisciplinesDAO {
         this.dataSource = dataSource;
     }
 
-    public String getDisciplineNameById(int id) {
+    public String getNameById(int id) {
         try (Connection con = dataSource.getConnection()) {
             String query = "SELECT DisciplineName FROM disciplines WHERE Id = ?";
             PreparedStatement stmt = con.prepareStatement(query);

@@ -11,7 +11,7 @@ public class DirectionsDAO {
         this.dataSource = dataSource;
     }
 
-    public String getDirectionNameById(int directionId) {
+    public String getNameById(int directionId) {
         try (Connection con = dataSource.getConnection()) {
             String query = "SELECT DirectionName FROM directions WHERE DirectionId = ?";
             PreparedStatement stmt = con.prepareStatement(query);

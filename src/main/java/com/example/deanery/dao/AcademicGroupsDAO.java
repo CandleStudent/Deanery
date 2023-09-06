@@ -31,7 +31,7 @@ public class AcademicGroupsDAO {
             while (rs.next()) {
                 int groupNum = Integer.parseInt(rs.getString("GroupNum"));
                 DirectionsDAO directionsDAO = new DirectionsDAO(Application.INSTANCE.dataSourceStudents());
-                String direction = directionsDAO.getDirectionNameById(rs.getInt("DirectionId"));
+                String direction = directionsDAO.getNameById(rs.getInt("DirectionId"));
                 Direction direction1 = Direction.APPLIED_MATHS_AND_CS;
                 if (direction.equals("Прикладная информатика")) {
                     direction1 = Direction.APPLIED_CS;
@@ -51,7 +51,7 @@ public class AcademicGroupsDAO {
         return data;
     }
 
-    public Group getGroupByName(int num) {
+    public Group getByNumber(int num) {
         try (Connection con = dataSource.getConnection()) {
             String query = "select * from academicgroups where GroupNum = ?";
             PreparedStatement stmt = con.prepareStatement(query);
@@ -60,7 +60,7 @@ public class AcademicGroupsDAO {
             rs.next();
             int groupNum = Integer.parseInt(rs.getString("GroupNum"));
             DirectionsDAO directionsDAO = new DirectionsDAO(Application.INSTANCE.dataSourceStudents());
-            String direction = directionsDAO.getDirectionNameById(rs.getInt("DirectionId"));
+            String direction = directionsDAO.getNameById(rs.getInt("DirectionId"));
             Direction direction1 = Direction.APPLIED_MATHS_AND_CS;
             if (direction.equals("Прикладная информатика")) {
                 direction1 = Direction.APPLIED_CS;

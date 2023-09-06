@@ -103,7 +103,7 @@ public class EnterController {
             StudentMenuController controller = loader.getController();
             controller.setStage(newStage);
             StudentsDAO studentsDAO = new StudentsDAO(Application.INSTANCE.dataSourceStudents());
-            Student student = studentsDAO.getStudentById(studentId);
+            Student student = studentsDAO.getById(studentId);
             controller.setStudent(student);
 
             //  closing previous scene

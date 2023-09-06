@@ -25,7 +25,7 @@ public class Grade {
         this.examDate = examDate;
         this.examPoints = examPoints;
         DisciplinesDAO disciplinesDAO = new DisciplinesDAO(Application.INSTANCE.dataSourceStudents());
-        this.disciplineName = disciplinesDAO.getDisciplineNameById(disciplineId);
+        this.disciplineName = disciplinesDAO.getNameById(disciplineId);
     }
 
     public Grade(Student student, int examSessionNum, LocalDate examDate, int examPoints, String disciplineName) {
@@ -43,7 +43,7 @@ public class Grade {
         this.examDate = examDate;
         this.examPoints = examPoints;
         DisciplinesDAO disciplinesDAO = new DisciplinesDAO(Application.INSTANCE.dataSourceStudents());
-        this.disciplineName = disciplinesDAO.getDisciplineNameById(disciplineId);
+        this.disciplineName = disciplinesDAO.getNameById(disciplineId);
     }
 
     public Student getStudent() {
