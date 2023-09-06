@@ -1,6 +1,7 @@
 package com.example.deanery.controller;
 
 import com.example.deanery.dao.Application;
+import com.example.deanery.dao.studentdb.AcademicGroupsDAO;
 import com.example.deanery.dao.studentdb.StudentsDAO;
 import com.example.deanery.model.Group;
 import com.example.deanery.model.Student;
@@ -10,8 +11,6 @@ import javafx.scene.control.TextField;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
-import static com.example.deanery.dao.studentdb.AcademicGroupsDAO.getGroup;
 
 public class EditStudentController extends EditController{
     @FXML
@@ -117,7 +116,8 @@ public class EditStudentController extends EditController{
             student.setPatronim(patronimField.getText());
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             student.setAdmissionDate(LocalDate.parse(admissionDateField.getText(), formatter));
-            Group group = getGroup(Integer.parseInt(groupField.getText()));
+            AcademicGroupsDAO academicGroupsDAO = new AcademicGroupsDAO(Application.INSTANCE.dataSourceStudents());
+            Group group = academicGroupsDAO.getByNumber(Integer.parseInt(groupField.getText()));
             student.setGroup(group);
             student.setPhoneNum(phoneField.getText());
             student.setDocumentNum(passportField.getText());
