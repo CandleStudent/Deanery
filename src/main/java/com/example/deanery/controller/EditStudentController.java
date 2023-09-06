@@ -1,7 +1,7 @@
 package com.example.deanery.controller;
 
 import com.example.deanery.dao.Application;
-import com.example.deanery.dao.StudentsDAO;
+import com.example.deanery.dao.studentdb.StudentsDAO;
 import com.example.deanery.model.Group;
 import com.example.deanery.model.Student;
 import javafx.fxml.FXML;
@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import static com.example.deanery.dao.AcademicGroupsDAO.getGroup;
+import static com.example.deanery.dao.studentdb.AcademicGroupsDAO.getGroup;
 
 public class EditStudentController extends EditController{
     @FXML

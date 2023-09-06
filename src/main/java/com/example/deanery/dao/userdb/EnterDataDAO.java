@@ -1,4 +1,4 @@
-package com.example.deanery.dao;
+package com.example.deanery.dao.userdb;
 
 import com.example.deanery.model.User;
 

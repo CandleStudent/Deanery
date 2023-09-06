@@ -1,5 +1,6 @@
-package com.example.deanery.dao;
+package com.example.deanery.dao.studentdb;
 
+import com.example.deanery.dao.Application;
 import com.example.deanery.model.Group;
 import com.example.deanery.model.Student;
 import javafx.collections.FXCollections;

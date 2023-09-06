@@ -1,7 +1,7 @@
 package com.example.deanery.controller;
 
 import com.example.deanery.dao.Application;
-import com.example.deanery.dao.DisciplinesDAO;
+import com.example.deanery.dao.studentdb.DisciplinesDAO;
 import com.example.deanery.model.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

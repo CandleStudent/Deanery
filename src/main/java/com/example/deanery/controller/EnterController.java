@@ -1,8 +1,8 @@
 package com.example.deanery.controller;
 
 import com.example.deanery.dao.Application;
-import com.example.deanery.dao.EnterDataDAO;
-import com.example.deanery.dao.StudentsDAO;
+import com.example.deanery.dao.userdb.EnterDataDAO;
+import com.example.deanery.dao.studentdb.StudentsDAO;
 import com.example.deanery.model.Student;
 import com.example.deanery.model.User;
 import javafx.fxml.FXML;

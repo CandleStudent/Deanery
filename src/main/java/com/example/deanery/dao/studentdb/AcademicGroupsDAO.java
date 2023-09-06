@@ -1,5 +1,6 @@
-package com.example.deanery.dao;
+package com.example.deanery.dao.studentdb;
 
+import com.example.deanery.dao.Application;
 import com.example.deanery.model.Direction;
 import com.example.deanery.model.Group;
 import com.example.deanery.model.Student;
@@ -7,7 +8,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 

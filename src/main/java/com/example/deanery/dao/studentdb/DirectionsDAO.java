@@ -1,4 +1,4 @@
-package com.example.deanery.dao;
+package com.example.deanery.dao.studentdb;
 
 import javax.sql.DataSource;
 import java.sql.*;

@@ -1,6 +1,6 @@
 package com.example.deanery.controller;
 
-import com.example.deanery.dao.AcademicGroupsDAO;
+import com.example.deanery.dao.studentdb.AcademicGroupsDAO;
 import com.example.deanery.dao.Application;
 import com.example.deanery.model.Group;
 import com.example.deanery.model.Student;

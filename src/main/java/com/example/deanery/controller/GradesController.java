@@ -1,7 +1,7 @@
 package com.example.deanery.controller;
 
 import com.example.deanery.dao.Application;
-import com.example.deanery.dao.GradesDAO;
+import com.example.deanery.dao.studentdb.GradesDAO;
 import com.example.deanery.model.Grade;
 import com.example.deanery.model.Student;
 import javafx.beans.property.ReadOnlyStringWrapper;

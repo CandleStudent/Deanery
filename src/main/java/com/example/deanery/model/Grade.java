@@ -1,7 +1,7 @@
 package com.example.deanery.model;
 
 import com.example.deanery.dao.Application;
-import com.example.deanery.dao.DisciplinesDAO;
+import com.example.deanery.dao.studentdb.DisciplinesDAO;
 
 import java.time.LocalDate;
 
