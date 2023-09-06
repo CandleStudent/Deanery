@@ -1,6 +1,5 @@
 package com.example.deanery.controller;
 
-import com.example.deanery.dao.StudentsDbDAO;
 import com.example.deanery.model.Student;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

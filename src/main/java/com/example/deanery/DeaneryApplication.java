@@ -1,6 +1,5 @@
 package com.example.deanery;
 
-import com.example.deanery.dao.StudentsDbDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -21,7 +20,7 @@ public class DeaneryApplication extends Application {
         URL imgUrl = Paths.get("src\\main\\resources\\com\\example\\deanery\\img\\symbol.png").toUri().toURL();
         stage.getIcons().add(new Image(String.valueOf(imgUrl)));
         stage.show();
-        StudentsDbDAO.updateToDate();
+        com.example.deanery.dao.Application.updateToDate();
     }
 
     public static void main(String[] args) {
