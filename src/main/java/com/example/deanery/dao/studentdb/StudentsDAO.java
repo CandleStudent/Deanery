@@ -145,7 +145,7 @@ public class StudentsDAO {
     public boolean isPassportExist(String passport) {
         try (Connection con = dataSource.getConnection()) {
             String query = """
-                    SELECT EXISTS(Document FROM students
+                    SELECT EXISTS(select Document FROM students
                     WHERE Document = ?) as isExists""";
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setString(1, passport);
