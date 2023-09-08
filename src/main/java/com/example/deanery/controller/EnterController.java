@@ -31,7 +31,8 @@ public class EnterController {
 
     public void enterButtonAction() {
         User user = new User();
-        int enter = EnterDataDAO.isEnterDataCorrect(user, loginField.getText(), passField.getText());
+        EnterDataDAO enterDataDAO = new EnterDataDAO(Application.INSTANCE.dataSourceUsers());
+        int enter = enterDataDAO.isEnterDataCorrect(user, loginField.getText(), passField.getText());
         switch(enter) {
             case(-1) -> {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -56,7 +57,7 @@ public class EnterController {
                 if (user.getRoleId() == 1) {
                     showMainMenu();
                 } else if (user.getRoleId() == 2) {
-                    showStudentMenu(EnterDataDAO.getStudentId(user.getId()));
+                    showStudentMenu(enterDataDAO.getStudentId(user.getId()));
                 }
             }
         }
