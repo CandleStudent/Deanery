@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Properties;
 
@@ -54,6 +55,11 @@ public enum Application {
             dataSource.setUser(props.getProperty("username"));
             dataSource.setPassword(props.getProperty("password"));
             dataSource.setURL(props.getProperty("url"));
+            try {
+                dataSource.setAllowPublicKeyRetrieval(true);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
             this.dataSourceStudents = dataSource;
         }
         return dataSourceStudents;

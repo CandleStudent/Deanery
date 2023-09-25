@@ -66,7 +66,7 @@ public class GradesDAO {
         List<Grade> grades = new ArrayList<>();
         try (Connection con = dataSource.getConnection()) {
             String query = """
-                SELECT * FROM grades WHERE StudentId = %d""";
+                SELECT * FROM grades WHERE StudentId = ?""";
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setInt(1, student.getId());
             ResultSet rs = stmt.executeQuery();

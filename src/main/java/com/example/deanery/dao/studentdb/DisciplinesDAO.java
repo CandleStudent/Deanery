@@ -35,13 +35,13 @@ public class DisciplinesDAO {
             String query = """
                 select disciplines.Id, disciplines.DisciplineName
                 from sessions join disciplines
+                ON disciplines.Id = sessions.DisciplineId
                 where sessions.DirectionId = ? AND
-                sessions.ExamSessionNum = ?
-                AND disciplines.Id = sessions.DisciplineId""";
+                sessions.ExamSessionNum = ?""";
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setInt(1, directionId);
             stmt.setInt(2, sessionNum);
-            ResultSet rs = stmt.executeQuery(query);
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 int disciplineId = rs.getInt("disciplines.Id");
                 String disciplineName = rs.getString("disciplines.DisciplineName");

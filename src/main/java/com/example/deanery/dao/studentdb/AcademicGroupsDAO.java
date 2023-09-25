@@ -28,7 +28,7 @@ public class AcademicGroupsDAO {
                         WHERE GroupNum = ?""";
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setInt(1, group.getTerm());
-            stmt.setInt(1, group.getLastSession());
+            stmt.setInt(2, group.getLastSession());
             stmt.setInt(3, group.getGroupNum());
             stmt.executeUpdate();
         } catch (SQLException sqlEx) {

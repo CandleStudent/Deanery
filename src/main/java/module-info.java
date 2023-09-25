@@ -12,6 +12,7 @@ module com.example.deanery {
     requires com.fasterxml.jackson.databind;
     requires java.sql;
     requires mysql.connector.java;
+    requires java.naming;  // Java Naming and Directory Interface (JNDI) API.
 
     opens com.example.deanery to javafx.fxml;
     exports com.example.deanery;

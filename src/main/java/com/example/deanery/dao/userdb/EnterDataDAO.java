@@ -31,6 +31,11 @@ public class EnterDataDAO {
             rs.next();
             boolean isLoginExists = rs.getBoolean("isExists");
             if (isLoginExists) {
+                query = "select * from enterdata where login = ?";
+                stmt = con.prepareStatement(query);
+                stmt.setString(1, inputLogin);
+                rs = stmt.executeQuery();
+                rs.next();
                 String password = rs.getString("pass");
                 if (password.equals(inputPassword)) {
                     int userId = rs.getInt("id");
@@ -71,7 +76,7 @@ public class EnterDataDAO {
 
     public int getStudentId(int userId) {
         try (Connection con = dataSource.getConnection()) {
-            String query = "SELECT * FROM studentsusers WHERE id = ?";
+            String query = "SELECT * FROM studentsusers WHERE userId = ?";
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setInt(1, userId);
             ResultSet rs = stmt.executeQuery();
