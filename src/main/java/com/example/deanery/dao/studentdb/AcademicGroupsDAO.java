@@ -83,6 +83,39 @@ public class AcademicGroupsDAO {
         return data;
     }
 
+    public ObservableList<Group> initDataForGroupsInApplication() {
+        ObservableList<Group> data = FXCollections.observableArrayList();
+        try (Connection con = dataSource.getConnection()) {
+            String query = """
+                SELECT *
+                FROM academicgroups
+                WHERE IsGraduated = 0;""";
+            PreparedStatement stmt = con.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int groupNum = Integer.parseInt(rs.getString("GroupNum"));
+                DirectionsDAO directionsDAO = new DirectionsDAO(Application.INSTANCE.dataSourceStudents());
+                String direction = directionsDAO.getNameById(rs.getInt("DirectionId"));
+                Direction direction1 = Direction.APPLIED_MATHS_AND_CS;
+                if (direction.equals("Прикладная информатика")) {
+                    direction1 = Direction.APPLIED_CS;
+                } else if (direction.equals("Информационная безопасность")) {
+                    direction1 = Direction.INFORMATION_SECURITY;
+                }
+                int term = Integer.parseInt(rs.getString("Term"));
+                LocalDate graduationDate = LocalDate.parse(rs.getString("GraduationYear"));
+                LocalDate startDate = LocalDate.parse(rs.getString("StartDate"));
+                int lastSession = rs.getInt("LastSession");
+                data.add(new Group(groupNum, direction1, term, graduationDate, startDate, lastSession));
+            }
+
+        } catch (SQLException sqlEx) {
+            sqlEx.printStackTrace();
+        }
+        return data;
+    }
+
     public Group getByNumber(int num) {
         try (Connection con = dataSource.getConnection()) {
             String query = "select * from academicgroups where GroupNum = ?";

@@ -26,14 +26,9 @@ public enum Application {
     public static void updateToDate() {
         LocalDate currentDate = LocalDate.now();
 
-        String query = """
-                SELECT *
-                FROM academicgroups
-                WHERE IsGraduated = 0;""";
-
         //  Обновление для выпускающихся групп
         AcademicGroupsDAO academicGroupsDAO = new AcademicGroupsDAO(INSTANCE.dataSourceStudents());
-        ObservableList<Group> groups = academicGroupsDAO.initDataForGroups(query);
+        ObservableList<Group> groups = academicGroupsDAO.initDataForGroupsInApplication();
         for (Group group : groups) {
             LocalDate gradDate = group.getGraduationYear();
             if (gradDate.isEqual(currentDate) || gradDate.isBefore(currentDate)) {
